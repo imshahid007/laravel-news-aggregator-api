@@ -84,7 +84,7 @@ class AuthController extends Controller
 	}
 
 	public function sendPasswordResetLinkEmail(Request $request) {
-		$request->validate(['email' => 'required|email']);
+		$request->validate(['email' => ['required', 'email', 'exists:users']]);
 
 		$status = Password::sendResetLink(
 			$request->only('email')
@@ -102,8 +102,8 @@ class AuthController extends Controller
 	public function resetPassword(Request $request) {
 		$request->validate([
 			'token' => 'required',
-			'email' => 'required|email',
-			'password' => 'required|min:8|confirmed',
+			'email' => ['required', 'email','exists:users'],
+            'password' => ['required', 'confirmed', PasswordRules::defaults()],
 		]);
 
 		$status = Password::reset(
