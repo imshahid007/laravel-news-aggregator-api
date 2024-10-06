@@ -1,8 +1,11 @@
 <?php
 
 //
+
+use Database\Seeders\CategorySeeder;
+
 beforeEach(function () {
-    $this->seed(); // Assuming we have a Seeder class that populates the database with test data
+    $this->seed(CategorySeeder::class); // Assuming we have a Seeder class that populates the database with test data
 });
 
 // It will return a collection of categories

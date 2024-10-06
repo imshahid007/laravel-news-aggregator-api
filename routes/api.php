@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\NewsSourceController;
 use Illuminate\Support\Facades\Route;
 
 //
@@ -23,3 +24,5 @@ Route::prefix('auth')->group(function () {
 
 // Get Categories
 Route::get('categories', CategoryController::class);
+// Get News Sources
+Route::get('news-sources', NewsSourceController::class);

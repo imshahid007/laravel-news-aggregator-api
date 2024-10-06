@@ -27,7 +27,7 @@ class CategorySeeder extends Seeder
     }
 
     /**
-     * The categories to be inserted (predfined) into the database.
+     * The categories to be inserted (predefined) into the database.
      */
     private function predefined()
     {
