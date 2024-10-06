@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    //
+    // Register
     public function register(Request $request)
     {
         $request->validate([
@@ -39,7 +39,7 @@ class AuthController extends Controller
 
         ], 201);
     }
-
+    // Login
     public function login(Request $request)
     {
 
@@ -56,7 +56,7 @@ class AuthController extends Controller
         }
 
         $user = auth()->user();
-
+        // Create a token for the user
         $token = $user->createToken('token')->plainTextToken;
 
         return response()->json([
@@ -67,22 +67,22 @@ class AuthController extends Controller
         ]);
     }
 
+    // Logout
     public function logout(Request $request)
     {
         // Revoke the token that was used to authenticate the current request
-		// $request->user()->currentAccessToken()->delete();
-		$request->user->tokens()->delete(); // To revoke all tokens (logout from all devices)
-
+		$request->user()->currentAccessToken()->delete();
+        //
         return response()->json([
             'message' => 'Logged out successfully',
         ]);
     }
 
-
+    // Get the authenticated user
     public function getAuthenticatedUser(Request $request) {
 		return $request->user();
 	}
-
+    // Reset password link
 	public function sendPasswordResetLinkEmail(Request $request) {
 		$request->validate(['email' => ['required', 'email', 'exists:users']]);
 
@@ -98,7 +98,7 @@ class AuthController extends Controller
 			]);
 		}
 	}
-
+    // Reset password
 	public function resetPassword(Request $request) {
 		$request->validate([
 			'token' => 'required',
