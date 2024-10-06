@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 //
@@ -19,3 +20,6 @@ Route::prefix('auth')->group(function () {
         Route::get('user', [AuthController::class, 'getAuthenticatedUser']);
     });
 });
+
+// Get Categories
+Route::get('categories', CategoryController::class);
