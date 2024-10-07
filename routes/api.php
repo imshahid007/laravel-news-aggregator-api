@@ -19,13 +19,19 @@ Route::prefix('auth')->group(function () {
 
 // Authenticated user routes
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('logout', [AuthController::class, 'logout']);
+    // Get authenticated user
     Route::get('user', [AuthController::class, 'getAuthenticatedUser']);
+    // Logout
+    Route::post('logout', [AuthController::class, 'logout']);
+
 
     // Articles
     Route::get('articles', [ArticleController::class, 'index']);
 });
 
+/**
+ * Public routes
+ */
 
 // Get Categories
 Route::get('categories', CategoryController::class);
