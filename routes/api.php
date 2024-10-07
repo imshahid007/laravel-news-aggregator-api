@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\NewsSourceController;
+use App\Http\Controllers\Api\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 //
@@ -14,13 +15,17 @@ Route::prefix('auth')->group(function () {
     // Password reset routes
     Route::post('password/email', [AuthController::class, 'sendPasswordResetLinkEmail']);
     Route::post('password/reset', [AuthController::class, 'resetPassword'])->name('password.reset');
-
-    // Authenticated user routes
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::post('logout', [AuthController::class, 'logout']);
-        Route::get('user', [AuthController::class, 'getAuthenticatedUser']);
-    });
 });
+
+// Authenticated user routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('user', [AuthController::class, 'getAuthenticatedUser']);
+
+    // Articles
+    Route::get('articles', [ArticleController::class, 'index']);
+});
+
 
 // Get Categories
 Route::get('categories', CategoryController::class);
