@@ -50,7 +50,7 @@ it('logs out a user', function () {
         'token',
     ]);
     // Logout the user
-    $response = $this->postJson('api/auth/logout', [], [
+    $response = $this->postJson('api/logout', [], [
         'Authorization' => 'Bearer '.$response['token'],
     ]);
     $response->assertStatus(200);
@@ -74,7 +74,7 @@ it('gets the authenticated user', function () {
         'token',
     ]);
     // Get the authenticated user
-    $response = $this->getJson('api/auth/user', [
+    $response = $this->getJson('api/user', [
         'Authorization' => 'Bearer '.$response['token'],
     ]);
     $response->assertStatus(200);
