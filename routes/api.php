@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\NewsSourceController;
-use App\Http\Controllers\Api\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 //
@@ -24,9 +24,15 @@ Route::middleware('auth:sanctum')->group(function () {
     // Logout
     Route::post('logout', [AuthController::class, 'logout']);
 
-
-    // Articles
-    Route::get('articles', [ArticleController::class, 'index']);
+    // Group by articles
+    Route::prefix('articles')->group(function () {
+        // Articles
+        Route::get('/', [ArticleController::class, 'index']);
+        // Search
+        Route::get('search', [ArticleController::class, 'search']);
+        // Get a single article
+        Route::get('{article}', [ArticleController::class, 'show']);
+    });
 });
 
 /**
