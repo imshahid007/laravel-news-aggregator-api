@@ -13,4 +13,11 @@ class Category extends Model
     {
         return $this->hasMany(Article::class);
     }
+
+
+    // get all categories
+    public function getCategories()
+    {
+        return Category::select('id', 'name', 'slug')->get();
+    }
 }
