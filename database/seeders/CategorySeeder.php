@@ -34,8 +34,8 @@ class CategorySeeder extends Seeder
         // Define the categories
         $categories = [
             ['name' => 'Business', 'slug' => 'business', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Entertainment', 'slug' => 'entertainment', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'General', 'slug' => 'general', 'created_at' => now(), 'updated_at' => now()]
+            ['name' => 'Technology', 'slug' => 'technology', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Science', 'slug' => 'science', 'created_at' => now(), 'updated_at' => now()]
         ];
 
         return $categories;
