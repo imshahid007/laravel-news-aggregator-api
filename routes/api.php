@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\NewsSourceController;
 use App\Http\Controllers\Api\AuthorController;
+use App\Http\Controllers\Api\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 //
@@ -23,6 +24,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'getAuthenticatedUser']);
     // Logout
     Route::post('logout', [AuthController::class, 'logout']);
+
+    // Articles routes
+    Route::prefix('articles')->group(function () {
+        // Articles
+        Route::get('/', [ArticleController::class, 'index']);
+        // Search
+        Route::get('search', [ArticleController::class, 'search']);
+        // Get a single article
+        Route::get('{article}', [ArticleController::class, 'show']);
+    });
 
 
 });
