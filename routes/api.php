@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\NewsSourceController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\ArticleController;
+use App\Http\Controllers\Api\UserPreferenceController;
 use Illuminate\Support\Facades\Route;
 
 //
@@ -33,6 +34,18 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('search', [ArticleController::class, 'search']);
         // Get a single article
         Route::get('{article}', [ArticleController::class, 'show']);
+    });
+
+    // User preferences routes
+    Route::prefix('user/preferences')->group(function () {
+        // Get user preferences
+        Route::get('/', [UserPreferenceController::class, 'show']);
+        // Update user preferences
+        Route::post('/', [UserPreferenceController::class, 'store']);
+
+        // User personalized feed
+        Route::get('/feed', [UserPreferenceController::class, 'personalizedFeed']);
+
     });
 
 
