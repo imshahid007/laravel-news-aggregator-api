@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
         // Seed the news sources
         $this->call(NewsSourceSeeder::class);
+        // Seed the author
+        $this->call(AuthorSeeder::class);
     }
 }
