@@ -10,23 +10,43 @@ use Illuminate\Support\Str;
 class ArticleAggregatorService
 {
     private const NewsAPI_Source_ID = 1;
+    private const TheGuardian_Source_ID = 2;
     //
-    protected $newsAPIService;
+    protected $newsAPIService, $theGuardianAPIService;
 
-    public function __construct(NewsAPIService $newsAPIService,)
+    /**
+     * ArticleAggregatorService constructor.
+     * @param NewsAPIService $newsAPIService
+     * @param TheGuardianAPIService $theGuardianAPIService
+     */
+    public function __construct(NewsAPIService $newsAPIService, TheGuardianAPIService $theGuardianAPIService)
     {
+        // NewsAPIService
         $this->newsAPIService = $newsAPIService;
+        // TheGuardianAPIService
+        $this->theGuardianAPIService = $theGuardianAPIService;
     }
 
+
+    /**
+     * Aggregate articles from different sources
+     * @return void
+     */
     public function aggregateArticles()
     {
-        $this->fetchAndStoreNewsAPIArticles();
+        // $this->fetchAndStoreNewsAPIArticles();
+        // $this->fetchAndStoreTheGuardianAPIArticles();
     }
 
+
+    /**
+     * Fetch and store NewsAPI articles
+     * @return void
+     */
     private function fetchAndStoreNewsAPIArticles()
     {
         // Fetch all categories
-        $categories = Category::all();
+        $categories = Category::select('id', 'name')->get();
         // Loop through each category
         foreach ($categories as $category) {
             // Fetch top headlines for each category's slug
@@ -36,6 +56,30 @@ class ArticleAggregatorService
         }
     }
 
+    /**
+     * Fetch and store TheGuardian API articles
+     * @return void
+     */
+    private function fetchAndStoreTheGuardianAPIArticles()
+    {
+        // Fetch all categories
+        $categories = Category::select('id', 'name')->get();
+
+        // Loop through each category
+        foreach ($categories as $category) {
+            // Fetch top headlines for each category's slug
+            $articles = $this->theGuardianAPIService->fetchArticles(['section' => $category->slug]);
+            // Save the articles to the database
+            $this->saveArticle($articles, $category->id, self::TheGuardian_Source_ID);
+        }
+    }
+
+
+    /**
+     * Save the articles to the database
+     * @param array $articles, int $category_id, int $news_source_id
+     * @return void
+     */
     public function saveArticle($articles, $category_id, $news_source_id)
     {
         // Loop through each article
