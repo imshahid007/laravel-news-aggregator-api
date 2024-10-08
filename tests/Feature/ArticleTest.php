@@ -2,9 +2,6 @@
 
 //
 
-use Database\Seeders\CategorySeeder;
-use Database\Seeders\NewsSourceSeeder;
-
 beforeEach(function () {
     // Seed the database
     $this->seed();
