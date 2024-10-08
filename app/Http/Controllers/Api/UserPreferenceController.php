@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserPreferenceRequest;
-use App\Http\Resources\UserPreferenceResource;
-use App\Models\UserPreference;
-use App\Models\Article;
 use App\Http\Resources\ArticleResource;
+use App\Http\Resources\UserPreferenceResource;
+use App\Models\Article;
+use App\Models\UserPreference;
 use Illuminate\Http\Request;
 
 class UserPreferenceController extends Controller
@@ -22,8 +22,9 @@ class UserPreferenceController extends Controller
         //
         $preferences = UserPreference::where('user_id', $request->user()->id)->first();
         // Check if preferences exist
-        if (!$preferences)
+        if (! $preferences) {
             return response()->json(['message' => 'User Preferences not found'], 404);
+        }
 
         //
         return UserPreferenceResource::make($preferences);
@@ -39,12 +40,14 @@ class UserPreferenceController extends Controller
             ['user_id' => $request->user()->id],
             $request->validated()
         );
+
         //
         return UserPreferenceResource::make($preferences);
     }
 
     /**
      *  User personalized feed
+     *
      * @return JsonResponse
      */
     public function personalizedFeed(Request $request)
@@ -52,9 +55,9 @@ class UserPreferenceController extends Controller
         // Get user preferences
         $preferences = UserPreference::where('user_id', $request->user()->id)->first();
         //
-        if (!$preferences) {
+        if (! $preferences) {
             return response()->json([
-                'message' => 'User Preferences not found'
+                'message' => 'User Preferences not found',
             ], 404);
         }
 

@@ -1,8 +1,8 @@
 <?php
 
+use App\Models\Author;
 use App\Models\Category;
 use App\Models\NewsSource;
-use App\Models\Author;
 use App\Models\UserPreference;
 
 beforeEach(function () {
@@ -17,7 +17,6 @@ beforeEach(function () {
     \App\Models\Article::factory()->count(10)->create();
 });
 
-
 // It will return a collection of user preferences for authenticated users
 it('returns a collection of user preferences for authenticated users', function () {
     // Create a user preference
@@ -26,7 +25,7 @@ it('returns a collection of user preferences for authenticated users', function 
     ]);
     // Hit the endpoint with the user's token
     $response = $this->getJson('/api/user/preferences', [
-        'Authorization' => 'Bearer ' . $this->token,
+        'Authorization' => 'Bearer '.$this->token,
     ]);
     // Assert that the response is successful
     $response->assertStatus(200);
@@ -45,7 +44,6 @@ it('returns a collection of user preferences for authenticated users', function 
     ]);
 });
 
-
 // It does not return a collection of user preferences for unauthenticated users
 it('does not return a collection of user preferences for unauthenticated users', function () {
     // Hit the endpoint without the user's token
@@ -58,12 +56,11 @@ it('does not return a collection of user preferences for unauthenticated users',
     ]);
 });
 
-
 // It shows 404 error when user preferences are not found
 it('shows 404 error when user preferences are not found', function () {
     // Hit the endpoint with the user's token
     $response = $this->getJson('/api/user/preferences', [
-        'Authorization' => 'Bearer ' . $this->token,
+        'Authorization' => 'Bearer '.$this->token,
     ]);
     // Assert that the response is not found
     $response->assertStatus(404);
@@ -72,7 +69,6 @@ it('shows 404 error when user preferences are not found', function () {
         'message' => 'User Preferences not found',
     ]);
 });
-
 
 // It updates the user preferences for authenticated users
 it('updates the user preferences for authenticated users', function () {
@@ -89,7 +85,7 @@ it('updates the user preferences for authenticated users', function () {
         'preferred_sources' => [$source_id],
         'preferred_authors' => [$author_id],
     ], [
-        'Authorization' => 'Bearer ' . $this->token,
+        'Authorization' => 'Bearer '.$this->token,
     ]);
     // Assert that the response is successful
     $response->assertStatus(200);
@@ -105,7 +101,6 @@ it('updates the user preferences for authenticated users', function () {
     ]);
 });
 
-
 // It fetches the personalized feed for authenticated users
 it('fetches the personalized feed for authenticated users', function () {
     // Create a user preference
@@ -114,7 +109,7 @@ it('fetches the personalized feed for authenticated users', function () {
     ]);
     // Hit the endpoint with the user's token
     $response = $this->getJson('/api/user/preferences/feed', [
-        'Authorization' => 'Bearer ' . $this->token,
+        'Authorization' => 'Bearer '.$this->token,
     ]);
     // Assert that the response is successful
     $response->assertStatus(200);

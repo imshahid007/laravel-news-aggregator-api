@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\NewsSourceController;
-use App\Http\Controllers\Api\AuthorController;
-use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\UserPreferenceController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,7 +47,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/feed', [UserPreferenceController::class, 'personalizedFeed']);
 
     });
-
 
 });
 

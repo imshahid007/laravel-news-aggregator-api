@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Author;
 use App\Http\Resources\AuthorResource;
+use App\Models\Author;
 
 class AuthorController extends Controller
 {

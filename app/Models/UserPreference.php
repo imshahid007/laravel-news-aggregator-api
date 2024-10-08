@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserPreference extends Model
 {
     use HasFactory;
+
     // Define the fillable fields
     protected $fillable = ['user_id', 'preferred_categories', 'preferred_sources', 'preferred_authors'];
 
