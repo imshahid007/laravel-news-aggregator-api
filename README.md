@@ -46,7 +46,7 @@ NY_TIMES_API_SECRET_KEY=''
 
 Set the prefered Cache Duration for your application in the .env file as well.
 ```
-CACHE_DURATION=300
+CACHE_DURATION=60
 ```
 
 
