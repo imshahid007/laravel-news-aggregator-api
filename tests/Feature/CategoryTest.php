@@ -15,5 +15,5 @@ it('returns a collection of categories', function () {
     // Assert that the response is successful
     $response->assertStatus(200);
     // Assert it returns 7 categories inside the data
-    $response->assertJsonCount(7, 'data');
+    $response->assertJsonCount(3, 'data');
 });

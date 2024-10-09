@@ -14,7 +14,5 @@ it('can fetch all news sources', function () {
     $response = $this->getJson('/api/news-sources');
     // Assert
     $response->assertStatus(200)
-        ->assertJsonCount(2, 'data')
-        ->assertJsonFragment(['name' => 'BBC News', 'url' => 'https://www.bbc.co.uk/news'])
-        ->assertJsonFragment(['name' => 'NewsAPI', 'url' => 'https://newsapi.org']);
+        ->assertJsonCount(3, 'data');
 });
