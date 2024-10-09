@@ -26,26 +26,29 @@ Route::middleware('auth:sanctum')->group(function () {
     // Logout
     Route::post('logout', [AuthController::class, 'logout']);
 
-    // Articles routes
-    Route::prefix('articles')->group(function () {
-        // Articles
-        Route::get('/', [ArticleController::class, 'index']);
-        // Search
-        Route::get('search', [ArticleController::class, 'search']);
-        // Get a single article
-        Route::get('{article}', [ArticleController::class, 'show']);
-    });
+    // Rate Limiting
+    Route::middleware('throttle:60,1')->group(function () {
+        // Articles routes
+        Route::prefix('articles')->group(function () {
+            // Articles
+            Route::get('/', [ArticleController::class, 'index']);
+            // Search
+            Route::get('search', [ArticleController::class, 'search']);
+            // Get a single article
+            Route::get('{article}', [ArticleController::class, 'show']);
+        });
 
-    // User preferences routes
-    Route::prefix('user/preferences')->group(function () {
-        // Get user preferences
-        Route::get('/', [UserPreferenceController::class, 'show']);
-        // Update user preferences
-        Route::post('/', [UserPreferenceController::class, 'store']);
+        // User preferences routes
+        Route::prefix('user/preferences')->group(function () {
+            // Get user preferences
+            Route::get('/', [UserPreferenceController::class, 'show']);
+            // Update user preferences
+            Route::post('/', [UserPreferenceController::class, 'store']);
 
-        // User personalized feed
-        Route::get('/feed', [UserPreferenceController::class, 'personalizedFeed']);
+            // User personalized feed
+            Route::get('/feed', [UserPreferenceController::class, 'personalizedFeed']);
 
+        });
     });
 
 });
