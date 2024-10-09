@@ -6,18 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class ArticleController extends Controller
 {
-    private $cache_duration;
-    /**
-     * Create a new ArticleController instance.
-     */
-    public function __construct()
-    {
-       $this->cache_duration = env('CACHE_DURATION');
-    }
     /**
      * Display a listing of the articles.
      *
@@ -25,18 +16,13 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
-        // Cache articles
-        $articles = Cache::remember('articles_list', $this->cache_duration, function () {
-            $articles = Article::with('category', 'newsSource')
-                ->select('id', 'category_id', 'news_source_id', 'author_id', 'title', 'description', 'content', 'url', 'image', 'published_at')
-                ->orderBy('created_at', 'desc')
-                ->paginate(10);
-            return ArticleResource::collection($articles);
-        });
-        return $articles;
+        $articles = Article::with('category', 'newsSource')
+            ->select('id', 'category_id', 'news_source_id', 'author_id', 'title', 'description', 'content', 'url', 'image', 'published_at')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
         //
 
-
+        return ArticleResource::collection($articles);
     }
 
     /* Display the specified article.
@@ -47,11 +33,7 @@ class ArticleController extends Controller
 
     public function show(Article $article)
     {
-        // Cache the Article
-        $article = Cache::remember("article_{$article->id}", $this->cache_duration, function () use ($article) {
-            return new ArticleResource($article);
-        });
-        return $article;
+        return new ArticleResource($article);
     }
 
     /**
