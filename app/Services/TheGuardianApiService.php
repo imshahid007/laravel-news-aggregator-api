@@ -35,7 +35,7 @@ class TheGuardianApiService
             // Fetch articles from the Guardian api
             $response = Http::get($this->baseUrl.'search' , array_merge([
                 'api-key' => $this->apiKey,
-                'page-size' => 100,
+                'page-size' => 10,
                 'show-fields' => 'publication,trailText,headline',
                 'show-references' => 'author',
                 'show-elements' => 'image'

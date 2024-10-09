@@ -11,20 +11,24 @@ class ArticleAggregatorService
 {
     private const NewsAPI_Source_ID = 1;
     private const TheGuardian_Source_ID = 2;
+    private const NewYorkTimes_Source_ID = 3;
     //
-    protected $newsAPIService, $theGuardianAPIService;
+    protected $newsAPIService, $theGuardianAPIService, $newYorkTimesAPIService;
 
     /**
      * ArticleAggregatorService constructor.
-     * @param NewsAPIService $newsAPIService
-     * @param TheGuardianAPIService $theGuardianAPIService
+     * @param NewsApiService $newsAPIService
+     * @param TheGuardianApiService $theGuardianAPIService
+     * @param NYTimesApiService newYorkTimesAPIService
      */
-    public function __construct(NewsAPIService $newsAPIService, TheGuardianAPIService $theGuardianAPIService)
+    public function __construct(NewsApiService $newsAPIService, TheGuardianApiService $theGuardianAPIService, NYTimesApiService $newYorkTimesAPIService)
     {
         // NewsAPIService
         $this->newsAPIService = $newsAPIService;
         // TheGuardianAPIService
         $this->theGuardianAPIService = $theGuardianAPIService;
+        // NewYorkTimesAPIService
+        $this->newYorkTimesAPIService = $newYorkTimesAPIService;
     }
 
 
@@ -34,8 +38,9 @@ class ArticleAggregatorService
      */
     public function aggregateArticles()
     {
-        // $this->fetchAndStoreNewsAPIArticles();
-        // $this->fetchAndStoreTheGuardianAPIArticles();
+        $this->fetchAndStoreNewsAPIArticles();
+        $this->fetchAndStoreTheGuardianAPIArticles();
+        $this->fetchAndStoreNewYorkTimesAPIArticles();
     }
 
 
@@ -74,13 +79,33 @@ class ArticleAggregatorService
         }
     }
 
+    /**
+     * Fetch and store New York Times API articles
+     * @return void
+     */
+    private function fetchAndStoreNewYorkTimesAPIArticles()
+    {
+        // Fetch all categories
+        $categories = Category::select('id', 'name')->get();
+
+        // Loop through each category
+        foreach ($categories as $category) {
+            // Fetch top headlines for each category's slug
+            $articles = $this->newYorkTimesAPIService->fetchArticles([
+                'fq' => "news_desk:($category->name)"
+            ]);
+            // Save the articles to the database
+            $this->saveArticle($articles, $category->id, self::NewYorkTimes_Source_ID);
+        }
+    }
+
 
     /**
      * Save the articles to the database
      * @param array $articles, int $category_id, int $news_source_id
      * @return void
      */
-    public function saveArticle($articles, $category_id, $news_source_id)
+    private function saveArticle($articles, $category_id, $news_source_id)
     {
         // Loop through each article
         foreach ($articles as $article) {
@@ -106,7 +131,6 @@ class ArticleAggregatorService
 
             // Bulk upsert the articles
             Article::upsert($data, ['url'], []);
-
         }
     }
 }
