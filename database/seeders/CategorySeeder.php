@@ -35,7 +35,7 @@ class CategorySeeder extends Seeder
         $categories = [
             ['name' => 'Business', 'slug' => 'business', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'Technology', 'slug' => 'technology', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Science', 'slug' => 'science', 'created_at' => now(), 'updated_at' => now()]
+            ['name' => 'Science', 'slug' => 'science', 'created_at' => now(), 'updated_at' => now()],
         ];
 
         return $categories;

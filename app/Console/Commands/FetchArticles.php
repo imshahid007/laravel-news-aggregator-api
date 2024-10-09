@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Services\ArticleAggregatorService;
+use Illuminate\Console\Command;
 
 class FetchArticles extends Command
 {

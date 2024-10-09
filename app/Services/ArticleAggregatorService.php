@@ -3,22 +3,28 @@
 namespace App\Services;
 
 use App\Models\Article;
-use App\Models\Category;
 use App\Models\Author;
+use App\Models\Category;
 use Illuminate\Support\Str;
 
 class ArticleAggregatorService
 {
     private const NewsAPI_Source_ID = 1;
+
     private const TheGuardian_Source_ID = 2;
+
     private const NewYorkTimes_Source_ID = 3;
+
     //
-    protected $newsAPIService, $theGuardianAPIService, $newYorkTimesAPIService;
+    protected $newsAPIService;
+
+    protected $theGuardianAPIService;
+
+    protected $newYorkTimesAPIService;
 
     /**
      * ArticleAggregatorService constructor.
-     * @param NewsApiService $newsAPIService
-     * @param TheGuardianApiService $theGuardianAPIService
+     *
      * @param NYTimesApiService newYorkTimesAPIService
      */
     public function __construct(NewsApiService $newsAPIService, TheGuardianApiService $theGuardianAPIService, NYTimesApiService $newYorkTimesAPIService)
@@ -31,9 +37,9 @@ class ArticleAggregatorService
         $this->newYorkTimesAPIService = $newYorkTimesAPIService;
     }
 
-
     /**
      * Aggregate articles from different sources
+     *
      * @return void
      */
     public function aggregateArticles()
@@ -43,9 +49,9 @@ class ArticleAggregatorService
         $this->fetchAndStoreNewYorkTimesAPIArticles();
     }
 
-
     /**
      * Fetch and store NewsAPI articles
+     *
      * @return void
      */
     private function fetchAndStoreNewsAPIArticles()
@@ -63,6 +69,7 @@ class ArticleAggregatorService
 
     /**
      * Fetch and store TheGuardian API articles
+     *
      * @return void
      */
     private function fetchAndStoreTheGuardianAPIArticles()
@@ -81,6 +88,7 @@ class ArticleAggregatorService
 
     /**
      * Fetch and store New York Times API articles
+     *
      * @return void
      */
     private function fetchAndStoreNewYorkTimesAPIArticles()
@@ -92,17 +100,17 @@ class ArticleAggregatorService
         foreach ($categories as $category) {
             // Fetch top headlines for each category's slug
             $articles = $this->newYorkTimesAPIService->fetchArticles([
-                'fq' => "news_desk:($category->name)"
+                'fq' => "news_desk:($category->name)",
             ]);
             // Save the articles to the database
             $this->saveArticle($articles, $category->id, self::NewYorkTimes_Source_ID);
         }
     }
 
-
     /**
      * Save the articles to the database
-     * @param array $articles, int $category_id, int $news_source_id
+     *
+     * @param  array  $articles,  int $category_id, int $news_source_id
      * @return void
      */
     private function saveArticle($articles, $category_id, $news_source_id)
@@ -117,7 +125,7 @@ class ArticleAggregatorService
             // Save the article to the database
             $data[] = [
                 'category_id' => $category_id,
-                'author_id'   => $author->id,
+                'author_id' => $author->id,
                 'news_source_id' => $news_source_id,
                 'title' => $article['title'],
                 'description' => $article['description'],
@@ -126,7 +134,7 @@ class ArticleAggregatorService
                 'image' => $article['image'],
                 'published_at' => $article['published_at'],
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ];
 
             // Bulk upsert the articles
