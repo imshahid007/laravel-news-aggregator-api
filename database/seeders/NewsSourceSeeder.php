@@ -32,7 +32,8 @@ class NewsSourceSeeder extends Seeder
     {
         return [
             ['name' => 'NewsAPI', 'url' => 'https://newsapi.org', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'BBC News', 'url' => 'https://www.bbc.co.uk/news', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'TheGuardian', 'url' => 'https://theguardian.com', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'New York Times', 'url' => 'https://www.nytimes.com', 'created_at' => now(), 'updated_at' => now()],
         ];
     }
 }
