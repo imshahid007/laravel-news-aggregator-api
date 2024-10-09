@@ -37,20 +37,18 @@ Route::middleware('auth:sanctum')->group(function () {
             // Get a single article
             Route::get('{article}', [ArticleController::class, 'show']);
         });
-
-        // User preferences routes
-        Route::prefix('user/preferences')->group(function () {
-            // Get user preferences
-            Route::get('/', [UserPreferenceController::class, 'show']);
-            // Update user preferences
-            Route::post('/', [UserPreferenceController::class, 'store']);
-
-            // User personalized feed
-            Route::get('/feed', [UserPreferenceController::class, 'personalizedFeed']);
-
-        });
     });
 
+    // User preferences routes
+    Route::prefix('user/preferences')->group(function () {
+        // Get user preferences
+        Route::get('/', [UserPreferenceController::class, 'show']);
+        // Update user preferences
+        Route::post('/', [UserPreferenceController::class, 'store']);
+
+        // User personalized feed
+        Route::get('/feed', [UserPreferenceController::class, 'personalizedFeed'])->middleware('throttle:60,1');
+    });
 });
 
 /**
