@@ -104,13 +104,31 @@ Normally, to run PHP application we just need to access it from browser by enter
 **First, the DockerFile has been coded in a way to update all the dependencies and composer files but still if that doesn't work, follow the below ...**
 
 **Start with docker (recommended)**
+1. Build and bring up the containers:
 ```
-docker-compose up
+docker compose -f deploy/docker-compose.yml --env-file ./.env up --build
+```
+2. Configure volumes:
+
+As you know, in the Dockerfile we are defining a volume for the storage/app folder of our application. And similarly, within the docker-compose.yml file, the volume is configured as a directory to store persistent files.
+
+However; you may encounter a problem where when writing to this directory, you will likely get a permissions error.
+
+This happens because Nginx does not have sufficient permissions to write to the folder. My solution to this problem is to run the following command to modify and add those permissions:
+
+```
+# first: change group (nginx)
+sudo chown -R :81 storage/app
+# second: change permissions
+sudo chmod -R 775 storage/app
 ```
 
-By running the command docker-compose up, Docker Compose reads the docker-compose.yml file and starts the containers defined within it. It automatically creates the necessary networks, attaches volumes, and manages the dependencies between containers.
+1. Access the application:
+```
+http://localhost:8080
+```
 
-
+By running the command, docker read the files and starts the containers defined within it. It automatically creates the necessary networks, attaches volumes, and manages the dependencies between containers.
 
 # Pest Testing Framework (Unit and Feature)
 This application is using Pest PHP framework for Unit and integration testing
