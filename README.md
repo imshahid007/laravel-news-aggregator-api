@@ -123,7 +123,13 @@ sudo chown -R :81 storage/app
 sudo chmod -R 775 storage/app
 ```
 
-3. Access the application:
+3. Run the migration & seed:
+```
+docker exec -t laravelapp php artisan migrate --seed
+```
+
+
+4. Access the application:
 ```
 http://localhost:8080
 ```
