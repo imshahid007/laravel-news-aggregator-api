@@ -123,7 +123,7 @@ sudo chown -R :81 storage/app
 sudo chmod -R 775 storage/app
 ```
 
-1. Access the application:
+3. Access the application:
 ```
 http://localhost:8080
 ```
